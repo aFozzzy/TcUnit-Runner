@@ -29,10 +29,6 @@
 using EnvDTE80;
 using log4net;
 using NDesk.Options;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Xml;
 using TCatSysManagerLib;
