@@ -341,7 +341,7 @@ namespace TcUnit.TcUnit_Runner
 
             /* Establish a connection to the ADS router
              */
-            TcAdsClient tcAdsClient = new TcAdsClient();
+            AdsClient tcAdsClient = new AdsClient();
 
             /* Run TcUnit until the results have been returned */
             TcUnitResultCollector tcUnitResultCollector = new TcUnitResultCollector();
