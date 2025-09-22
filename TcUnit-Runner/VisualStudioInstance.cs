@@ -234,6 +234,7 @@ namespace TcUnit.TcUnit_Runner
             } else
             {
                 List<string> VisualStudioProgIds = new List<string>();
+                VisualStudioProgIds.Add("TcXaeShell.DTE.17.0"); // TcXaeShell (VS2022)
                 VisualStudioProgIds.Add("VisualStudio.DTE.16.0"); // VS2019
                 VisualStudioProgIds.Add("TcXaeShell.DTE.15.0"); // TcXaeShell (VS2017)
                 VisualStudioProgIds.Add("VisualStudio.DTE.15.0"); // VS2017
