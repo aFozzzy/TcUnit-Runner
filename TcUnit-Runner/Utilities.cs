@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.Versioning;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TcUnit.TcUnit_Runner
 {
+    [SupportedOSPlatform("windows")]
     class Utilities
     {
         // Singleton constructor

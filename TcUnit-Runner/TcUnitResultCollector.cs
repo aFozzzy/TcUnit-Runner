@@ -1,14 +1,11 @@
 ﻿using EnvDTE80;
 using log4net;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Versioning;
 
 namespace TcUnit.TcUnit_Runner
 {
+    [SupportedOSPlatform("windows")]
     class TcUnitResultCollector
     {
         ILog log = LogManager.GetLogger("TcUnit-Runner");

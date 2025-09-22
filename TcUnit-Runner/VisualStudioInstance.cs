@@ -1,16 +1,9 @@
 ﻿using EnvDTE80;
 using log4net;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+using System.Runtime.Versioning;
 using TCatSysManagerLib;
 
 namespace TcUnit.TcUnit_Runner
@@ -19,6 +12,7 @@ namespace TcUnit.TcUnit_Runner
     /// This class is used to instantiate the Visual Studio Development Tools Environment (DTE)
     /// which is used to programatically access all the functions in VS.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     class VisualStudioInstance
     {
         [DllImport("ole32.dll")]
@@ -127,17 +121,17 @@ namespace TcUnit.TcUnit_Runner
             dte.ToolWindows.ErrorList.ShowMessages = true;
             dte.ToolWindows.ErrorList.ShowWarnings = true;
             // First set the SilentMode and then try to open the Remote Manager
-            var tcAutomationSettings = dte.GetObject("TcAutomationSettings");
+            ITcAutomationSettings tcAutomationSettings = (ITcAutomationSettings)dte.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true; // Only available from TC3.1.4020.0 and above
 
             // Load the correct version of TwinCAT using the remote manager in the automation interface
-            ITcRemoteManager remoteManager = dte.GetObject("TcRemoteManager");
+            ITcRemoteManager remoteManager = (ITcRemoteManager)dte.GetObject("TcRemoteManager");
 
             var allTwinCatVersions = new List<Version>();
             Version latestTwinCatVersion = null;
    
             // Check if version is installed
-            foreach (var possibleVersion in remoteManager.Versions)
+            foreach (string possibleVersion in remoteManager.Versions)
             {
                 // Add installed TwinCAT version to versions list
                 allTwinCatVersions.Add(new Version(possibleVersion));

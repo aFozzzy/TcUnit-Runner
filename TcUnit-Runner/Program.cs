@@ -29,17 +29,15 @@
 using EnvDTE80;
 using log4net;
 using NDesk.Options;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Xml;
 using TCatSysManagerLib;
 using TwinCAT.Ads;
 
 namespace TcUnit.TcUnit_Runner
 {
+    [SupportedOSPlatform("windows")]
     class Program
     {
         private static string VisualStudioSolutionFilePath = null;
@@ -345,7 +343,7 @@ namespace TcUnit.TcUnit_Runner
 
             /* Establish a connection to the ADS router
              */
-            TcAdsClient tcAdsClient = new TcAdsClient();
+            AdsClient tcAdsClient = new AdsClient();
 
             /* Run TcUnit until the results have been returned */
             TcUnitResultCollector tcUnitResultCollector = new TcUnitResultCollector();

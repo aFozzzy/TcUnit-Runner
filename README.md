@@ -1,3 +1,6 @@
+# NOTICE
+** This fork was only to run it in 4026 shell. there might be loads of errors, so be advised **
+
 # Archived
 
 **This project is currently archived.
