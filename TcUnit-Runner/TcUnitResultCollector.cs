@@ -16,8 +16,7 @@ namespace TcUnit.TcUnit_Runner
             TEST_SUITE_STATISTICS, // For example: | ID=1 number of tests=4, number of failed tests=1, duration=0.1
             TEST_NAME, // For example: | Test name=WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters
             TEST_CLASS_NAME, // For example: | Test class name=PRG_TEST.fbDiagnosticMessageFlagsParser_Test
-            TEST_DURATION, // For example: | Test duration=0.010
-            TEST_STATUS_AND_NUMBER_OF_ASSERTS, // For example: | Test status=SUCCESS, number of asserts=3
+            TEST_STATUS_AND_NUMBER_OF_ASSERTS_AND_DURATION, // For example: | Test status=SUCCESS, number of asserts=3, duration=2.803e-4
             TEST_ASSERT_MESSAGE, // For example: | Test assert message=Test 'Warning message' failed at 'diagnosis type'
             TEST_ASSERT_TYPE, // For example: | Test assert type=ANY
         }
@@ -258,29 +257,7 @@ namespace TcUnit.TcUnit_Runner
                                 // Parse test class name
                                 string testClassName = tcUnitAdsMessage.Substring(tcUnitAdsMessage.LastIndexOf("Test class name=") + 16);
                                 testSuiteTestCaseClassName = testClassName;
-                                expectedErrorLogEntryType = ErrorLogEntryType.TEST_DURATION;
-                            }
-                            else
-                            {
-                                log.Error("While parsing TcUnit results, expected " + expectedErrorLogEntryType.ToString() + " but got " + ErrorLogEntryType.TEST_CLASS_NAME.ToString());
-                                return null;
-                            }
-                        }
-
-                        /* -------------------------------------
-                           Look for test duration
-                           ------------------------------------- */
-                        else if (tcUnitAdsMessage.Contains("Test duration="))
-                        {
-                            if (expectedErrorLogEntryType == ErrorLogEntryType.TEST_DURATION)
-                            {
-                                // Parse test class name
-                                string testDuration = tcUnitAdsMessage.Substring(tcUnitAdsMessage.LastIndexOf("Test duration=") + 14);
-                                if (!double.TryParse(testDuration, NumberStyles.Any, CultureInfo.InvariantCulture, out testSuiteTestCaseDuration))
-                                {
-                                    // Handle error
-                                }
-                                expectedErrorLogEntryType = ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS;
+                                expectedErrorLogEntryType = ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS_AND_DURATION;
                             }
                             else
                             {
@@ -292,16 +269,21 @@ namespace TcUnit.TcUnit_Runner
                         /* -------------------------------------
                            Look for test status and number of asserts
                            ------------------------------------- */
-                        else if (tcUnitAdsMessage.Contains("Test status=") && tcUnitAdsMessage.Contains(", number of asserts="))
+                        else if (tcUnitAdsMessage.Contains("Test status=") && tcUnitAdsMessage.Contains(", number of asserts=") && tcUnitAdsMessage.Contains(", duration="))
                         {
-                            if (expectedErrorLogEntryType == ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS)
+                            if (expectedErrorLogEntryType == ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS_AND_DURATION)
                             {
                                 // Parse test status
                                 string testStatus = Utilities.GetStringBetween(tcUnitAdsMessage, "Test status=", ", number of asserts=");
-                                string testNumberOfAssertions = tcUnitAdsMessage.Substring(tcUnitAdsMessage.LastIndexOf(", number of asserts=") + 20);
+                                string testNumberOfAssertions = Utilities.GetStringBetween(tcUnitAdsMessage, ", number of asserts=", ", duration=");
+                                string testDuration = tcUnitAdsMessage.Substring(tcUnitAdsMessage.LastIndexOf(", duration=") + 14);
 
                                 testSuiteTestCaseStatus = testStatus;
                                 if (!uint.TryParse(testNumberOfAssertions, out testSuiteTestCaseNumberOfAsserts))
+                                {
+                                    // Handle error
+                                }
+                                if (!double.TryParse(testDuration, NumberStyles.Any, CultureInfo.InvariantCulture, out testSuiteTestCaseDuration))
                                 {
                                     // Handle error
                                 }
@@ -341,7 +323,7 @@ namespace TcUnit.TcUnit_Runner
                             }
                             else
                             {
-                                log.Error("While parsing TcUnit results, expected " + expectedErrorLogEntryType.ToString() + " but got " + ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS.ToString());
+                                log.Error("While parsing TcUnit results, expected " + expectedErrorLogEntryType.ToString() + " but got " + ErrorLogEntryType.TEST_STATUS_AND_NUMBER_OF_ASSERTS_AND_DURATION.ToString());
                                 return null;
                             }
                         }
