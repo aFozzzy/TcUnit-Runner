@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
+using System.Runtime.Versioning;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
 namespace TcUnit.TcUnit_Runner
 {
+    [SupportedOSPlatform("windows")]
     class Utilities
     {
         // Singleton constructor

@@ -1,4 +1,5 @@
-﻿using TCatSysManagerLib;
+﻿using System.Runtime.Versioning;
+using TCatSysManagerLib;
 
 namespace TcUnit.TcUnit_Runner
 {
@@ -7,6 +8,7 @@ namespace TcUnit.TcUnit_Runner
     /// is a complement to the VS DTE and that gives access to certain TwinCAT specific functions
     /// integrated into Visual Studio
     /// </summary>
+    [SupportedOSPlatform("windows")]
     class AutomationInterface
     {
         private ITcSysManager10 sysManager = null;

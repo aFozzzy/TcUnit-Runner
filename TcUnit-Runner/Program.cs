@@ -30,12 +30,14 @@ using EnvDTE80;
 using log4net;
 using NDesk.Options;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Xml;
 using TCatSysManagerLib;
 using TwinCAT.Ads;
 
 namespace TcUnit.TcUnit_Runner
 {
+    [SupportedOSPlatform("windows")]
     class Program
     {
         private static string VisualStudioSolutionFilePath = null;

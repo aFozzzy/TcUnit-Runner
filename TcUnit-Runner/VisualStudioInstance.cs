@@ -3,7 +3,7 @@ using log4net;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-
+using System.Runtime.Versioning;
 using TCatSysManagerLib;
 
 namespace TcUnit.TcUnit_Runner
@@ -12,6 +12,7 @@ namespace TcUnit.TcUnit_Runner
     /// This class is used to instantiate the Visual Studio Development Tools Environment (DTE)
     /// which is used to programatically access all the functions in VS.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     class VisualStudioInstance
     {
         [DllImport("ole32.dll")]
