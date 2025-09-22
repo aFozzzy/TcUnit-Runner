@@ -409,17 +409,18 @@ namespace TcUnit.TcUnit_Runner
             List<ErrorList.Error> errorsSorted = errors.OrderBy(o => o.Description).ToList();
 
             /* Parse all events (from the error list) from Visual Studio and store the results */
-            TcUnitTestResult testResult = tcUnitResultCollector.ParseResults(errorsSorted, TcUnitTaskName);
+            TcUnitTestResult? testResult = tcUnitResultCollector.ParseResults(errorsSorted, TcUnitTaskName);
 
-            /* Print results to logger */
-            log.Info(testResult.PrintTestResults());
-
-            /* Write xUnit XML report */
             if (testResult == null)
             {
                 log.Error("No test results parsed from events (error list).");
                 CleanUpAndExitApplication(Constants.RETURN_ERROR_NO_TEST_RESULTS);
             }
+
+            /* Print results to logger */
+            log.Info(testResult!.PrintTestResults());
+
+            /* Write xUnit XML report */
 
             // No need to check if file (VisualStudioSolutionFilePath) exists, as this has already been done
             string VisualStudioSolutionDirectoryPath = Path.GetDirectoryName(VisualStudioSolutionFilePath);
