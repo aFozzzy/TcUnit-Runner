@@ -79,9 +79,17 @@ if exist "%zipFile%" (
      echo Removing existing .zip file
      del "%zipFile%"
 )
+REM Copy license and config files to publish directory
+copy "%scriptDir%TcUnit-Runner\LICENSE" "%publishDir%" >nul
+copy "%scriptDir%TcUnit-Runner\Beckhoff.TwinCAT.Ads_LICENSE" "%publishDir%" >nul
+copy "%scriptDir%TcUnit-Runner\log4net_LICENSE-2.0" "%publishDir%" >nul
+copy "%scriptDir%TcUnit-Runner\NDesk_Options_LICENSE" "%publishDir%" >nul
+copy "%scriptDir%TcUnit-Runner\log4net.config" "%publishDir%" >nul
 
 echo Zipping the published files into %zipFile%...
-"%sevenZipPath%" a -tzip "%zipFile%" "%publishDir%\*"
+pushd "%publishDir%"
+"%sevenZipPath%" a -tzip "%zipFile%" *
+popd
 IF %ERRORLEVEL% NEQ 0 (
     echo Failed to zip the published files
     EXIT /B %ERRORLEVEL%
